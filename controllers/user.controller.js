@@ -54,7 +54,6 @@ class AuthController {
    * @access Public
    */
   login = asyncHandler(async (req, res, next) => {
-    // try {
     const rawData = req.body;
     const { password } = rawData;
     const filteredValues = filterValues(rawData, ['email', 'password']);
@@ -78,9 +77,6 @@ class AuthController {
     return next(
       new ErrorResponse('Incorrect email or password', 401),
     );
-    // } catch (error) {
-    //   return res.status(500).send({ error: error.message || error });
-    // }
   });
 
   /**
