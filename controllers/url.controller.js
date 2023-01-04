@@ -11,7 +11,7 @@ class BookController {
 
   /**
    * @desc Shorten URl
-   * @route POST /api/v1/url/shorten
+   * @route POST /url/shorten
    * @access Private
    */
   shortenURL = asyncHandler(async (req, res) => {
@@ -21,7 +21,7 @@ class BookController {
       throw new ErrorResponse(`URL: ${originalURL} has already been shortened`, 422);
     }
     const baseURL = `${req.protocol}://${req.get('host')}`;
-    const url = await this.urlLib.shortenURL(originalURL, baseURL);
+    const url = await this.urlLib.shortenURL({ originalURL, baseURL, user: req.user });
     return res.status(201).json({
       success: true,
       data: url,
@@ -30,11 +30,11 @@ class BookController {
 
   /**
    * @desc Visit URL
-   * @route POST /api/v1/url/visit
+   * @route POST /url/visit
    * @access Private
    */
-  shortenURL = asyncHandler(async (req, res) => {
-    const { originalURL } = req.body;
+  visitURL = asyncHandler(async (req, res) => {
+    const { originalURL } = req.param;
     const isURLinDB = await this.urlLib.isURLinDB(originalURL);
     if (isURLinDB) {
       throw new ErrorResponse(`URL: ${originalURL} has already been shortened`, 422);

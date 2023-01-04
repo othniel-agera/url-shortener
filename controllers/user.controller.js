@@ -14,7 +14,7 @@ class AuthController {
 
   /**
    * @desc Register user
-   * @route POST /api/v1/auth/signup
+   * @route POST /auth/signup
    * @access Public
    */
   signup = asyncHandler(async (req, res, next) => {
@@ -50,7 +50,7 @@ class AuthController {
 
   /**
    * @desc Login user
-   * @route POST /api/v1/auth/login
+   * @route POST /auth/login
    * @access Public
    */
   login = asyncHandler(async (req, res, next) => {
@@ -81,7 +81,7 @@ class AuthController {
 
   /**
    * @desc Get current logged in user
-   * @route GET /api/v1/auth/me
+   * @route GET /auth/me
    * @access Private
    */
   getMe = asyncHandler(async (req, res) => {
@@ -92,7 +92,7 @@ class AuthController {
 
   /**
    * @desc Update user details
-   * @route PUT /api/v1/auth/updatedetails
+   * @route PUT /auth/updatedetails
    * @access Private
    */
   updateDetails = asyncHandler(async (req, res) => {
