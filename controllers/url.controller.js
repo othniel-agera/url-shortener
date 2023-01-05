@@ -1,5 +1,6 @@
 // const URL = require('../models/url.model');
 const URLLib = require('../lib/url.lib');
+const UserLib = require('../lib/user.lib');
 const URL = require('../models/url.model');
 const asyncHandler = require('../middlewares/async.middleware');
 const ErrorResponse = require('../utils/errorResponse.util');
@@ -8,6 +9,7 @@ const advancedResults = require('../utils/advancedResults.util');
 class BookController {
   constructor() {
     this.urlLib = new URLLib();
+    this.userLib = new UserLib();
   }
 
   /**
@@ -17,12 +19,21 @@ class BookController {
    */
   shortenURL = asyncHandler(async (req, res) => {
     const { originalURL } = req.body;
+
     const isURLinDB = await this.urlLib.isURLinDB(originalURL);
     if (isURLinDB) {
       throw new ErrorResponse(`URL: ${originalURL} has already been shortened`, 422);
     }
+
+    const { _id, urlLimit, urlsShortened } = req.user;
+    if (urlsShortened >= urlLimit) {
+      throw new ErrorResponse(`You have exceeded the allowed limit: ${urlLimit}. Please contact support.`, 422);
+    }
     const baseURL = `${req.protocol}://${req.get('host')}`;
     const url = await this.urlLib.shortenURL({ originalURL, baseURL, user: req.user });
+
+    this.userLib.updateUser(_id, { urlsShortened: urlsShortened + 1 });
+
     return res.status(201).json({
       success: true,
       data: url,
@@ -36,16 +47,16 @@ class BookController {
    */
   visitURL = asyncHandler(async (req, res) => {
     const { nanoURL } = req.params;
+
     const isURLIdinDB = await this.urlLib.isURLIdinDB(nanoURL);
     if (!isURLIdinDB) {
       throw new ErrorResponse(`NanoUrl: ${nanoURL} is not in correct`, 404);
     }
     const url = await this.urlLib.fetchURL({ urlId: nanoURL });
-    const addHttps = url.originalURL && (url.originalURL.includes('http://') || url.originalURL.includes('https://')) ? url.originalURL : `https://${url.originalURL}`;
 
     // eslint-disable-next-line no-underscore-dangle
     await this.urlLib.updateURL(url._id, { visitCount: url.visitCount + 1 });
-    res.redirect(addHttps);
+    res.redirect(url.originalURL);
   });
 
   /**

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const { Schema } = mongoose;
 
@@ -29,6 +30,10 @@ const UserSchema = new Schema({
   urlLimit: {
     type: Number,
     default: process.env.GLOBAL_URL_LIMIT,
+  },
+  urlsShortened: {
+    type: Number,
+    default: 0,
   },
 }, {
   timestamps: true,
