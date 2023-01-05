@@ -9,7 +9,7 @@ router.use('/', urlRoute);
 
 router.get('/', (req, res) => {
   res.status(200).send({
-    message: 'Welcome to the Book-Rental-Store API',
+    message: 'Welcome to the URL shortener API',
   });
 });
 
