@@ -42,6 +42,9 @@ class BookController {
     }
     const url = await this.urlLib.fetchURL({ urlId: nanoURL });
     const addHttps = url.originalURL && (url.originalURL.includes('http://') || url.originalURL.includes('https://')) ? url.originalURL : `https://${url.originalURL}`;
+
+    // eslint-disable-next-line no-underscore-dangle
+    await this.urlLib.updateURL(url._id, { visitCount: url.visitCount + 1 });
     res.redirect(addHttps);
   });
 
