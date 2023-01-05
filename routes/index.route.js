@@ -5,7 +5,7 @@ const userRoute = require('./user.route');
 const urlRoute = require('./url.route');
 
 router.use('/auth', userRoute);
-router.use('/url', urlRoute);
+router.use('/', urlRoute);
 
 router.get('/', (req, res) => {
   res.status(200).send({
