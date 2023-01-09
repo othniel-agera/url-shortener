@@ -28,6 +28,8 @@
         "comma-dangle": "warn",
         "keyword-spacing": "warn",
         "object-curly-spacing": "warn",
-        "indent": "warn"
+        "indent": "warn",
+        "no-param-reassign": 0,
+        "no-underscore-dangle": "off"
     }
 }

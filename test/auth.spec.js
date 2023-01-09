@@ -25,7 +25,7 @@ describe('User Registration Test', () => {
       const password = await hashPassword(user.password);
       await createUser({ ...user, password });
       const response = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/auth/login')
         .send({ email: user.email, password: user.password })
         .set('Accept', 'application/json');
       token = response.body.accessToken;
@@ -34,7 +34,7 @@ describe('User Registration Test', () => {
     it('should register user successfully', async function () {
       this.timeout(10000);
       const response = await request(app)
-        .post('/api/v1/auth/signup')
+        .post('/auth/signup')
         .send({
           username: `${Date.now()}_ox`,
           firstname: 'leo',
@@ -57,7 +57,7 @@ describe('User Registration Test', () => {
     it('should login user successfully', async () => {
       const emailPassword = { email: `${Date.now()}_example@example.com`, password: 'Test1234' };
       await request(app)
-        .post('/api/v1/auth/signup')
+        .post('/auth/signup')
         .send({
           username: `${Date.now()}_ox`,
           firstname: 'leo',
@@ -67,7 +67,7 @@ describe('User Registration Test', () => {
         .set('Accept', 'application/json')
         .expect(201);
       const response = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/auth/login')
         .send({
           ...emailPassword,
         })
@@ -138,7 +138,7 @@ describe('User Registration Test', () => {
     });
     it('should not register user successfully when an email is already in use', async () => {
       const response = await request(app)
-        .post('/api/v1/auth/signup')
+        .post('/auth/signup')
         .send(user)
         .set('Accept', 'application/json')
         .expect(400);
@@ -154,7 +154,7 @@ describe('User Registration Test', () => {
     });
     it('should not register user successfully when an username is already in use', async () => {
       const response = await request(app)
-        .post('/api/v1/auth/signup')
+        .post('/auth/signup')
         .send({ ...user, email: 'kufre@email.com' })
         .set('Accept', 'application/json')
         .expect(400);
@@ -171,7 +171,7 @@ describe('User Registration Test', () => {
     it('should not login user successfully because of incorrect email', async () => {
       const password = await hashPassword('Test1234');
       const response = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/auth/login')
         .send({ email: 'tgegge@yghben.com', password })
         .set('Accept', 'application/json')
         .expect(401);
@@ -186,7 +186,7 @@ describe('User Registration Test', () => {
     });
     it('should not login user successfully because of incorrect password', async () => {
       const response = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/auth/login')
         .send({ email: user.email, password: 'Kufre1email.com' })
         .set('Accept', 'application/json')
         .expect(401);

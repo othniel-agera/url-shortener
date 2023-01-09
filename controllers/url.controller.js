@@ -50,7 +50,7 @@ class BookController {
 
     const isURLIdinDB = await this.urlLib.isURLIdinDB(nanoURL);
     if (!isURLIdinDB) {
-      throw new ErrorResponse(`NanoUrl: ${nanoURL} is not in correct`, 404);
+      throw new ErrorResponse(`NanoUrl: ${nanoURL} is not correct`, 404);
     }
     const url = await this.urlLib.fetchURL({ urlId: nanoURL });
 
@@ -60,16 +60,16 @@ class BookController {
   });
 
   /**
-   * @desc Get shirtened URLs
+   * @desc Get shortened URLs
    * @route GET /nanoURLs
    * @access Private
    */
   getShortened = asyncHandler(async (req, res) => {
-    const { query } = req;
+    const { query, user } = req;
     const {
       page, limit, select, sort, ...filter
     } = query;
-    const result = await advancedResults(URL, filter, {
+    const result = await advancedResults(URL, { ...filter, user: user.id }, {
       page,
       limit,
       select,
@@ -80,6 +80,41 @@ class BookController {
     res.status(200).json({
       success: true,
       ...result,
+    });
+  });
+
+  /**
+   * @desc Delete shortened URL
+   * @route DELETE /:nanoURLs
+   * @access Private
+   */
+  deleteShortened = asyncHandler(async (req, res, next) => {
+    const { nanoURL } = req.params;
+
+    const isURLIdinDB = await this.urlLib.isURLIdinDB(nanoURL);
+    if (!isURLIdinDB) {
+      return next(
+        new ErrorResponse(`URL with id: ${nanoURL} does not exist on the database`, 404),
+      );
+    }
+
+    await this.urlLib.destroyURL({ urlId: nanoURL });
+    return res.status(202).json({
+      success: true,
+    });
+  });
+
+  /**
+   * @desc Delete shortened URLs
+   * @route DELETE /nanoURLs
+   * @access Private
+   */
+  deleteShorteneds = asyncHandler(async (req, res) => {
+    console.log(req.user);
+    // eslint-disable-next-line no-underscore-dangle
+    await this.urlLib.destroyURLs(req.user._id);
+    return res.status(202).json({
+      success: true,
     });
   });
 }

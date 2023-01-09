@@ -8,19 +8,19 @@ chai.use(chaiAsPromised);
 const { expect } = chai;
 
 const getRequest = (route, token) => request(app)
-  .get(`/api/v1${route}`)
+  .get(`${route}`)
   .set('Authorization', `Bearer ${token}`)
   .set('Accept', 'application/json');
 const postRequest = (route, token) => request(app)
-  .post(`/api/v1${route}`)
+  .post(`${route}`)
   .set('Authorization', `Bearer ${token}`)
   .set('Accept', 'application/json');
 const putRequest = (route, token) => request(app)
-  .put(`/api/v1${route}`)
+  .put(`${route}`)
   .set('Authorization', `Bearer ${token}`)
   .set('Accept', 'application/json');
 const deleteRequest = (route, token) => request(app)
-  .delete(`/api/v1${route}`)
+  .delete(`${route}`)
   .set('Authorization', `Bearer ${token}`)
   .set('Accept', 'application/json');
 module.exports = {
