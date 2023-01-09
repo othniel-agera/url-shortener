@@ -87,8 +87,7 @@ class Validator {
 
   static postShortenURLValidator = celebrate({
     [Segments.BODY]: Joi.object().keys({
-      originalURL: Joi.string().uri().required().trim()
-        .lowercase(),
+      originalURL: Joi.string().uri().required().trim(),
     }),
   });
 }

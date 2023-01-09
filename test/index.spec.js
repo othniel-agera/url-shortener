@@ -1,5 +1,5 @@
 const {
-  app, request, expect, getRequest,
+  expect, getRequest,
 } = require('./common.spec');
 
 describe('Index Test', () => {
