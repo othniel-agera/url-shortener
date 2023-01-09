@@ -10,7 +10,7 @@ const router = Router();
 router.post('/shorten', authenticate, postShortenURLValidator, shortenURL);
 router.get('/nanoURLs', authenticate, getShortened);
 router.get('/:nanoURL', visitURL);
-router.delete('/nanoURL', deleteShorteneds);
-router.delete('/:nanoURL', deleteShortened);
+router.delete('/nanoURL', authenticate, deleteShorteneds);
+router.delete('/:nanoURL', authenticate, deleteShortened);
 
 module.exports = router;
