@@ -48,11 +48,10 @@ class BookController {
   visitURL = asyncHandler(async (req, res) => {
     const { nanoURL } = req.params;
 
-    const isURLIdinDB = await this.urlLib.isURLIdinDB(nanoURL);
-    if (!isURLIdinDB) {
+    const url = await this.urlLib.fetchURL({ urlId: nanoURL });
+    if (!url) {
       throw new ErrorResponse(`NanoUrl: ${nanoURL} is not correct`, 404);
     }
-    const url = await this.urlLib.fetchURL({ urlId: nanoURL });
 
     // eslint-disable-next-line no-underscore-dangle
     await this.urlLib.updateURL(url._id, { visitCount: url.visitCount + 1 });
