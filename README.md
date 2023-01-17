@@ -1,7 +1,7 @@
 # Project: URL shortener
 Backend API for the URL shortener application to manage bootcamps, courses, users and authentication.
 
-[![Coverage Status](https://coveralls.io/repos/github/othniel-agera/url-shortener/badge.svg?branch=main)](https://coveralls.io/github/othniel-agera/url-shortener?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/othniel-agera/url-shortener/badge.svg)](https://coveralls.io/github/othniel-agera/url-shortener)
 
 ```
 baseURL = https://url-shortener-ie6x.onrender.com
