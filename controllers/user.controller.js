@@ -14,7 +14,7 @@ class AuthController {
 
   /**
    * @desc Register user
-   * @route POST /api/v1/auth/signup
+   * @route POST /auth/signup
    * @access Public
    */
   signup = asyncHandler(async (req, res, next) => {
@@ -50,11 +50,10 @@ class AuthController {
 
   /**
    * @desc Login user
-   * @route POST /api/v1/auth/login
+   * @route POST /auth/login
    * @access Public
    */
   login = asyncHandler(async (req, res, next) => {
-    // try {
     const rawData = req.body;
     const { password } = rawData;
     const filteredValues = filterValues(rawData, ['email', 'password']);
@@ -78,25 +77,22 @@ class AuthController {
     return next(
       new ErrorResponse('Incorrect email or password', 401),
     );
-    // } catch (error) {
-    //   return res.status(500).send({ error: error.message || error });
-    // }
   });
 
   /**
    * @desc Get current logged in user
-   * @route GET /api/v1/auth/me
+   * @route GET /auth/me
    * @access Private
    */
   getMe = asyncHandler(async (req, res) => {
-    const user = await this.userLib.fetchUser(req.user.id);
+    const user = await this.userLib.fetchUser(req.user._id);
 
     res.status(200).json({ success: true, data: user });
   });
 
   /**
    * @desc Update user details
-   * @route PUT /api/v1/auth/updatedetails
+   * @route PUT /auth/updatedetails
    * @access Private
    */
   updateDetails = asyncHandler(async (req, res) => {

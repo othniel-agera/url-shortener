@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "test": "NODE_ENV=test nyc --reporter=lcov mocha --exit"
+    "test": "NODE_ENV=test nyc --reporter=lcov mocha --exit",
+    "test:coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,8 @@
     "moment": "^2.29.4",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nanoid": "^3.3.4"
   },
   "devDependencies": {
     "chai": "^4.3.7",

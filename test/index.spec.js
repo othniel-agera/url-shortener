@@ -1,5 +1,5 @@
 const {
-  app, request, expect, getRequest,
+  expect, getRequest,
 } = require('./common.spec');
 
 describe('Index Test', () => {
@@ -14,7 +14,7 @@ describe('Index Test', () => {
       expect(resp_data).to.be.an('object');
       expect(resp_data).to.have.property('message');
       expect(resp_data.message).to.be.an('string');
-      expect(resp_data.message).to.equal('Welcome to the Book-Rental-Store API');
+      expect(resp_data.message).to.equal('Welcome to the URL shortener API');
     });
   });
 
@@ -25,25 +25,12 @@ describe('Index Test', () => {
 
       const resp_data = response.body;
       expect(resp_data).to.be.an('object');
-      expect(resp_data).to.have.property('message');
-      expect(resp_data.message).to.be.an('string');
-      expect(resp_data.message).to.equal('Invalid request, Route does not exist');
+      expect(resp_data).to.have.property('error');
+      expect(resp_data.error).to.be.an('string');
+      expect(resp_data.error).to.equal('NanoUrl: undefined is not correct');
     });
     it('should not be authorized catch', async () => {
-      const response = await getRequest('/books')
-        .expect(401);
-
-      const resp_data = response.body;
-      expect(resp_data).to.be.an('object');
-      expect(resp_data).to.have.property('success');
-      expect(resp_data).to.have.property('error');
-      expect(resp_data.success).to.be.an('boolean');
-      expect(resp_data.success).to.equal(false);
-      expect(resp_data.error).to.be.an('string');
-      expect(resp_data.error).to.equal('Not authorized to access this route');
-    });
-    it('should not be authorized', async () => {
-      const response = await request(app).get('/api/v1/books')
+      const response = await getRequest('/nanoURLs')
         .expect(401);
 
       const resp_data = response.body;
